@@ -43,7 +43,8 @@ class strongswan {
         [  "${strongswan::params::conf_dir}/cacerts",
            "${strongswan::params::conf_dir}/crls",
            "${strongswan::params::conf_dir}/certs",
-           "${strongswan::params::conf_dir}/private", ]:
+           "${strongswan::params::conf_dir}/private",
+           "${strongswan::params::conf_dir}/connections", ]:
             ensure  => directory,
             owner   => 'root',
             group   => 'root',
@@ -76,6 +77,21 @@ class strongswan {
             mode    => '0600',
             content => $strongswan::certs::node_key,
             notify  => Exec['ipsec-reread'];
+        "${strongswan::params::conf_dir}/connections/placeholder.inc":
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => '',
+            alias   => 'ipsec-conn-placeholder';
+        $strongswan::params::conf_file:
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => template("strongswan/${strongswan::params::conf_tmpl}"),
+            require => File['ipsec-conn-placeholder'],
+            notify  => Service[$strongswan::params::service_name];
         $strongswan::params::secrets_file:
             ensure  => file,
             owner   => 'root',

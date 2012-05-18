@@ -18,6 +18,8 @@ class strongswan::params {
             $service_name = 'ipsec'
             $conf_dir     = '/etc/ipsec.d'
             $secrets_file = '/etc/ipsec.secrets'
+            $conf_file    = '/etc/ipsec.conf'
+            $conf_tmpl    = 'ipsec.conf.debian'
         }
         # TODO: openswan: NSS certficates only?
         #'centos', 'redhat': {
@@ -25,6 +27,8 @@ class strongswan::params {
         #    $service_name = 'ipsec'
         #    $conf_dir     = '/etc/ipsec.d'
         #    $secrets_file = '/etc/ipsec.secrets'
+        #    $conf_file    = '/etc/ipsec.conf'
+        #    $conf_tmpl    = 'ipsec.conf.centos'
         #}
         default: {
             fail("Unsupported platform: ${::operatingsystem}")

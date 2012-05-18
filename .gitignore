@@ -17,3 +17,6 @@ tags
 ## Puppet module
 pkg/
 metadata.json
+
+## Data directory
+data/

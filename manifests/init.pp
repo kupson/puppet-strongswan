@@ -29,6 +29,10 @@ class strongswan {
     }
 
     exec {
+        'ipsec-reload':
+            command     => 'ipsec reload',
+            refreshonly => true,
+            require     => Package[$strongswan::params::package];
         'ipsec-reread':
             command     => 'ipsec rereadall',
             refreshonly => true,

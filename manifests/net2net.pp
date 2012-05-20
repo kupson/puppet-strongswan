@@ -50,7 +50,7 @@ define strongswan::net2net (
                      "absent"  => "absent",
                    }
 
-    $facter_iface = regsubst($local_iface, '-', '_', 'G')
+    $facter_iface = regsubst($local_iface, '[.-]', '_', 'G')
 
     $iface_ip   = inline_template('<%= scope.lookupvar("::ipaddress_" + facter_iface)-%>')
     $iface_net  = inline_template('<%= scope.lookupvar("::network_" + facter_iface)-%>')

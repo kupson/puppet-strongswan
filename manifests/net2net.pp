@@ -4,13 +4,32 @@
 #
 # Parameters:
 # 
-#   [*ensure*] - present|absent
+#   [*ensure*]      - *present*|absent
+#   [*local_ip*]    - local IP for IPsec packets (instead of default route source IP) *%defaultroute*|<IP address>
+#   [*local_iface*] - local subnet network interface (setup tunnel to network on this interface)
+#   [*local_cert*]  - local certificate file name (defaults to auto-generated one)
+#   [*remote_ip*]   - remote host IP
+#   [*remote_net*]  - remote network (to reach by IPsec tunnel)
+#   [*remote_fqdn*] - fully qualified domain name of remote host
+#   [*ike_version*] - IKE version *1*|2
+#   [*compress*]    - enable compression yes|*no*
+#   [*mobike*]      - enable Mobike (IKEv2 only) yes|*no*
+#   [*pfs*]         - Perfect Forward Secrecy *yes*|no
 #
 # Actions:
 #
 # Requires:
 #
 # Sample Usage:
+#
+# include strongswan
+#
+# strongswan::net2net {
+#   local_iface => 'xen-br0',
+#   remote_ip   => '192.0.2.13',
+#   remote_net  => '10.0.0.0/8',
+#   remote_fqdn => 'ipsec.example.net';
+# }
 #
 define strongswan::net2net (
     $ensure       = 'present',

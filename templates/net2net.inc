@@ -1,7 +1,9 @@
 # Puppet managed IPsec connection
 conn <%= title %>
 	left		= <%= local_ip %>
+<% if ike_version == 1 -%>
 	leftsourceip	= <%= local_net_ip %>
+<% end -%>
 	leftsubnet	= <%= real_local_net %>
 	leftcert	= <%= local_cert %>
 	right		= <%= remote_ip %>
@@ -13,7 +15,9 @@ conn <%= title %>
 	dpdtimeout	= 60s
 	keyingtries	= %forever
 	compress	= <%= compress %>
+<% if ike_version == 2 -%>
 	mobike		= <%= mobike %>
+<% end -%>
 	pfs		= <%= pfs %>
 	auto		= start
 

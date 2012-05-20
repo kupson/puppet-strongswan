@@ -46,6 +46,9 @@ define strongswan::net2net (
     $mobike       = 'no',
     $pfs          = 'yes'
 ) {
+    if $ike_version == '1' and $mobike == 'yes' {
+        fail("Mobike unsupported in IKEv1 mode")
+    }
 
     $file_ensure = $ensure ? {
                      "present" => "file",

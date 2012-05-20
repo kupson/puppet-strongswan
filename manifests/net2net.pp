@@ -13,14 +13,17 @@
 # Sample Usage:
 #
 define strongswan::net2net (
-    $ensure   = 'present',
-    $local_ip = '%defaultroute',
+    $ensure       = 'present',
+    $local_ip     = '%defaultroute',
     $local_iface,
-    $local_cert = "${::fqdn}.pem",
+    $local_cert   = "${::fqdn}.pem",
     $remote_ip,
     $remote_net,
-    $remote_fqdn
-
+    $remote_fqdn,
+    $ike_version  = '1',
+    $compress     = 'no',
+    $mobike       = 'no',
+    $pfs          = 'yes'
 ) {
 
     $file_ensure = $ensure ? {

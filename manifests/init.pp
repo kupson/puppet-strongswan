@@ -3,6 +3,8 @@
 # This module installs strongswan on node.
 #
 # Parameters:
+#   [*ikev1_nat_t*]   - enable IKEv1 NAT-T true|*false* (extlookup)
+#   [*silence_ikev2*] - less vebose charon/IKEv2 logging *true*|false (extlookup)
 #
 # Actions:
 #

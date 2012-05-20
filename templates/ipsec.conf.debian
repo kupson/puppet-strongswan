@@ -10,7 +10,16 @@ config setup
 	# crlcheckinterval=600
 	# strictcrlpolicy=yes
 	# cachecrls=yes
+<% varname = 'strongswan::params::ikev1_nat_t'
+   if has_variable?(varname) and scope.lookupvar(varname).to_s != 'false' -%>
+	nat_traversal=yes
+<% else -%>
 	# nat_traversal=yes
+<% end -%>
+<% varname = 'strongswan::params::silence_ikev2'
+   if has_variable?(varname) and scope.lookupvar(varname).to_s != 'false' -%>
+	charondebug="ike 0, net 0, enc 0"
+<% end -%>
 	charonstart=yes
 	plutostart=yes
 

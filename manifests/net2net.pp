@@ -7,6 +7,7 @@
 #   [*ensure*]      - *present*|absent
 #   [*local_ip*]    - local IP for IPsec packets (instead of default route source IP) *%defaultroute*|<IP address>
 #   [*local_iface*] - local subnet network interface (setup tunnel to network on this interface)
+#   [*local_net*]   - local subnet address and mask (defaults to network on given interface)
 #   [*local_cert*]  - local certificate file name (defaults to auto-generated one)
 #   [*remote_ip*]   - remote host IP
 #   [*remote_net*]  - remote network (to reach by IPsec tunnel)
@@ -27,14 +28,15 @@
 # strongswan::net2net {
 #   local_iface => 'xen-br0',
 #   remote_ip   => '192.0.2.13',
-#   remote_net  => '10.0.0.0/8',
-#   remote_fqdn => 'ipsec.example.net';
+#   remote_net  => '10.200.0.0/16',
+#   remote_fqdn => 'ipsec200.example.net';
 # }
 #
 define strongswan::net2net (
     $ensure       = 'present',
     $local_ip     = '%defaultroute',
     $local_iface,
+    $local_net    = undef,
     $local_cert   = "${::fqdn}.pem",
     $remote_ip,
     $remote_net,
@@ -53,13 +55,17 @@ define strongswan::net2net (
     $facter_iface = regsubst($local_iface, '[.-]', '_', 'G')
 
     $iface_ip   = inline_template('<%= scope.lookupvar("::ipaddress_" + facter_iface)-%>')
-    $iface_net  = inline_template('<%= scope.lookupvar("::network_" + facter_iface)-%>')
-    $iface_mask = inline_template('<%= scope.lookupvar("::netmask_" + facter_iface)-%>')
+    $iface_net  = inline_template('<%= scope.lookupvar("::network_"   + facter_iface)-%>')
+    $iface_mask = inline_template('<%= scope.lookupvar("::netmask_"   + facter_iface)-%>')
     $iface_cidr = netmask2cidr($iface_mask)
 
-    $local_net_ip = $iface_ip
-    $local_net    = "${iface_net}/${iface_cidr}"
     $remote_id    = "CN=${remote_fqdn}"
+    $local_net_ip = $iface_ip
+    if $local_net {
+        $real_local_net = $local_net
+    } else {
+        $real_local_net = "${iface_net}/${iface_cidr}"
+    }
 
     file {
         "/etc/ipsec.d/connections/${title}.inc":

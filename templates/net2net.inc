@@ -2,7 +2,7 @@
 conn <%= title %>
 	left		= <%= local_ip %>
 	leftsourceip	= <%= local_net_ip %>
-	leftsubnet	= <%= local_net %>
+	leftsubnet	= <%= real_local_net %>
 	leftcert	= <%= local_cert %>
 	right		= <%= remote_ip %>
 	rightsubnet	= <%= remote_net %>

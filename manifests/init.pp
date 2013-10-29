@@ -33,14 +33,17 @@ class strongswan {
     exec {
         'ipsec-reload':
             command     => 'ipsec reload',
+            path        => '/usr/sbin',
             refreshonly => true,
             require     => Package[$strongswan::params::package];
         'ipsec-reread':
             command     => 'ipsec rereadall',
+            path        => '/usr/sbin',
             refreshonly => true,
             require     => Package[$strongswan::params::package];
         'ipsec-secrets':
             command     => 'ipsec secrets',
+            path        => '/usr/sbin',
             refreshonly => true,
             require     => Package[$strongswan::params::package];
     }

@@ -57,9 +57,9 @@ define strongswan::net2net (
 
     $facter_iface = regsubst($local_iface, '[.-]', '_', 'G')
 
-    $iface_ip   = inline_template('<%= scope.lookupvar("::ipaddress_" + facter_iface)-%>')
-    $iface_net  = inline_template('<%= scope.lookupvar("::network_"   + facter_iface)-%>')
-    $iface_mask = inline_template('<%= scope.lookupvar("::netmask_"   + facter_iface)-%>')
+    $iface_ip   = inline_template('<%= scope.lookupvar("::ipaddress_" + @facter_iface)-%>')
+    $iface_net  = inline_template('<%= scope.lookupvar("::network_"   + @facter_iface)-%>')
+    $iface_mask = inline_template('<%= scope.lookupvar("::netmask_"   + @facter_iface)-%>')
     $iface_cidr = netmask2cidr($iface_mask)
 
     $remote_id    = "CN=${remote_fqdn}"
